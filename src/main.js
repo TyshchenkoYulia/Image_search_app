@@ -13,17 +13,17 @@ import { refs } from "./js/refs";
 
 // ====================================================================
 
-
-refs.formSubmit.addEventListener('submit', onButtonSubmitForm);
-
 const lightbox = new SimpleLightbox('.gallery a',
                                         { 
                                         captionsData: 'alt',
                                         captionDelay: 250,
     });
-            
+
+// ====================================================================
+
+refs.formSubmit.addEventListener('submit', onButtonSubmitForm);            
     
-function onButtonSubmitForm(event) {
+async function onButtonSubmitForm(event) {
     event.preventDefault();
 
     refs.gallery.innerHTML = '';
@@ -48,7 +48,9 @@ function onButtonSubmitForm(event) {
 
     refs.loader.classList.add('loader');
 
-    getImages(inputValue).then(data => {
+    try {
+        await getImages(inputValue);
+
         if (data.total === 0) {
                 iziToast.show({
                     titleColor: '#fff',
@@ -63,14 +65,22 @@ function onButtonSubmitForm(event) {
                     maxWidth: '432px',
                 })
         }
-        renderGalleryMarkup(data.hits);
 
+        renderGalleryMarkup(data.hits);
         
         lightbox.refresh();
 
-        })
+        
+
+    } catch(error) {
+        console.log(error);
+    }
 
     refs.formSubmit.reset();
 
-    
 }
+    
+
+    
+
+    
