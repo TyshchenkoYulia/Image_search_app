@@ -1,4 +1,5 @@
-import {refs} from "./refs";
+
+import { refs } from "./refs";
 
 // ==============================================================
 
@@ -30,7 +31,8 @@ export function renderGalleryMarkup(images) {
 
     }).join('');
 
-    refs.gallery.innerHTML = markup;
-    // refs.gallery.insertAdjacentHTML("beforeend", markup);
+    // refs.gallery.innerHTML = markup;
+    refs.gallery.insertAdjacentHTML("beforeend", markup);
+    
    refs.loader.classList.remove('loader');
 }
