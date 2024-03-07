@@ -34,8 +34,6 @@ export function renderGalleryMarkup(images) {
    
     refs.gallery.insertAdjacentHTML('beforeend', markup);
 
-    refs.loader.classList.remove('loader');
-    //  refs.loadMoreButton.classList.add('load-more');
-    
+    refs.loader.classList.remove('loader');   
 
 }

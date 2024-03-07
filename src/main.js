@@ -20,8 +20,10 @@ const lightbox = new SimpleLightbox('.gallery a',
     });
 
 // ====================================================================
+
 let page = 1;
 let inputValue;
+
 
 refs.loadMoreButton.classList.add('is-close');
 
@@ -56,8 +58,7 @@ async function onButtonSubmitForm(event) {
 
     try {
        const data = await getImages(inputValue);
-        
-        
+                
         if (data.total === 0) {
           
                 iziToast.show({
@@ -79,19 +80,15 @@ async function onButtonSubmitForm(event) {
 
         renderGalleryMarkup(data.hits);
 
-        
-
+        // const galleryElement = document.querySelector('.gallery-item');
+        // let rect = galleryElement.getBoundingClientRect();
+       
         lightbox.refresh();
-
         
-
     } catch (error) {
-        
         console.log(error);
     }
-
-    
-    
+   
     refs.formSubmit.reset();
 
     refs.loadMoreButton.classList.remove('is-close');
@@ -106,32 +103,36 @@ async function onButtonClickLoadmore() {
     page += 1;
     
     refs.loader.classList.add('loader');
-    try {
 
+    try {
         const data = await getImages(inputValue, page);
         renderGalleryMarkup(data.hits);
+
+        window.scrollBy({
+            top: 172*3+24*2+20*2,
+            behavior: "smooth",
+        });
+       
         lightbox.refresh();
-        if (data.hits.length > data.totalHits) {
+
+        if (data.hits.length < limit) {
                 refs.loadMoreButton.classList.add('is-close');
 
                 return iziToast.error({
-                            title: 'Error',
+                            icon: '',
+                            color: 'blue',
+                            position: 'topRight',
                             message: "We're sorry, but you've reached the end of search results.",
                         });
         }
-        
-        // let rect = gallery.getBoundingClientRect();
-        // console.log(rect);
-
+      
     } catch (error) {
         console.log(error);
     }
     
-
     refs.loader.classList.remove('loader');
-
     
 }
     
 
-    // refs.loadMoreButton.classList.add('load-more');
+    
