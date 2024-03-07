@@ -4,6 +4,6 @@ export const refs = {
     input: document.querySelector('.input-value'),
     section: document.querySelector('section'),
     loader: document.querySelector('div'),
-    loadMoreButton: document.querySelector('.load-more'),
+    loadMoreButton: document.querySelector('[data-action="load-more"]'),
 }
 

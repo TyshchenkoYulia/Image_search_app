@@ -6,7 +6,7 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 
 import errorIcon from "../src/img/error-icon.svg";
 
-import { getImages, limit, page} from "./js/pixabay-api";
+import { getImages, limit} from "./js/pixabay-api";
 import { renderGalleryMarkup } from "./js/render-functions";
 
 import { refs } from "./js/refs";
@@ -20,6 +20,10 @@ const lightbox = new SimpleLightbox('.gallery a',
     });
 
 // ====================================================================
+let page = 1;
+let inputValue;
+
+refs.loadMoreButton.classList.add('is-close');
 
 refs.formSubmit.addEventListener('submit', onButtonSubmitForm);            
     
@@ -27,8 +31,8 @@ async function onButtonSubmitForm(event) {
     event.preventDefault();
 
     refs.gallery.innerHTML = '';
-    
-    const inputValue = refs.input.value.trim();
+    refs.loadMoreButton.classList.remove('load-more');
+    inputValue = refs.input.value.trim();
 
     if (inputValue === '') {
             iziToast.show({
@@ -67,7 +71,9 @@ async function onButtonSubmitForm(event) {
         }
 
         renderGalleryMarkup(data.hits);
+
         
+
         lightbox.refresh();
 
         
@@ -81,18 +87,25 @@ async function onButtonSubmitForm(event) {
     
     refs.formSubmit.reset();
 
+    refs.loadMoreButton.classList.remove('is-close');
 }
     
 
-// refs.loadMoreButton.addEventListener('click', onButtonClickLoadmore);
+refs.loadMoreButton.addEventListener('click', onButtonClickLoadmore);
 
-function onButtonClickLoadmore() {
+
+async function onButtonClickLoadmore() {
     
-    page++;
-
+    page += 1;
+    
     refs.loader.classList.add('loader');
-    refs.loadMoreButton.classList.add('load-more');
     
-    onButtonSubmitForm();
+    await getImages(inputValue, page);
+
+    refs.loadMoreButton.scrollIntoView();
+
+    refs.loader.classList.remove('loader');
 }
     
+
+    // refs.loadMoreButton.classList.add('load-more');

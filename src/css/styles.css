@@ -122,3 +122,7 @@ button:hover {
     box-shadow: 14px 0 0 -2px, 38px 0 0 2px, -14px 0 0 -2px, -38px 0 0 -2px;
   }
 }
+
+.is-close {
+  display: none;
+}

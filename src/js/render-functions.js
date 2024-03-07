@@ -32,9 +32,10 @@ export function renderGalleryMarkup(images) {
     }).join('');
 
    
-    refs.gallery.insertAdjacentHTML("beforeend", markup);
+    refs.gallery.insertAdjacentHTML('beforeend', markup);
 
-    // refs.loader.classList.remove('loader');
+    refs.loader.classList.remove('loader');
+    //  refs.loadMoreButton.classList.add('load-more');
     
 
 }
