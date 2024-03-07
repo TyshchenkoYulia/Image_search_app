@@ -32,7 +32,9 @@ async function onButtonSubmitForm(event) {
 
     refs.gallery.innerHTML = '';
     refs.loadMoreButton.classList.remove('load-more');
+
     inputValue = refs.input.value.trim();
+    refs.loadMoreButton.classList.add('is-close');
 
     if (inputValue === '') {
             iziToast.show({
@@ -45,8 +47,8 @@ async function onButtonSubmitForm(event) {
                     position: 'topRight',
                     backgroundColor: '#59A10D',
                     close: false,
-                })
-
+            })
+        
         return;
     }
 
@@ -54,8 +56,10 @@ async function onButtonSubmitForm(event) {
 
     try {
        const data = await getImages(inputValue);
-
+        
+        
         if (data.total === 0) {
+          
                 iziToast.show({
                     titleColor: '#fff',
                     titleSize: '16px',
@@ -68,6 +72,9 @@ async function onButtonSubmitForm(event) {
                     close: true,
                     maxWidth: '432px',
                 })
+            
+            refs.loader.classList.remove('loader');
+            return;          
         }
 
         renderGalleryMarkup(data.hits);
@@ -99,12 +106,31 @@ async function onButtonClickLoadmore() {
     page += 1;
     
     refs.loader.classList.add('loader');
-    
-    await getImages(inputValue, page);
+    try {
 
-    refs.loadMoreButton.scrollIntoView();
+        const data = await getImages(inputValue, page);
+        renderGalleryMarkup(data.hits);
+        lightbox.refresh();
+        if (data.hits.length > data.totalHits) {
+                refs.loadMoreButton.classList.add('is-close');
+
+                return iziToast.error({
+                            title: 'Error',
+                            message: "We're sorry, but you've reached the end of search results.",
+                        });
+        }
+        
+        // let rect = gallery.getBoundingClientRect();
+        // console.log(rect);
+
+    } catch (error) {
+        console.log(error);
+    }
+    
 
     refs.loader.classList.remove('loader');
+
+    
 }
     
 

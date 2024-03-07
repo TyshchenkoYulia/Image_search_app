@@ -14,7 +14,7 @@ export async function getImages(inputValue, page) {
     const QUERY = inputValue;
   
 
-    const response = await axios.get('', {
+    const {data} = await axios.get('', {
         params: {
             page: page,
             per_page: limit,
@@ -26,6 +26,6 @@ export async function getImages(inputValue, page) {
         }
     });
 
-    return response.data;
+    return data;
         
 }
