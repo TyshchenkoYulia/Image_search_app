@@ -16,13 +16,13 @@ export async function getImages(inputValue) {
 
     const response = await axios.get('', {
         params: {
-        page: page,
-        per_page: limit,
-        key: KEY,
-        q: QUERY,
-        image_type: "photo",
-        orientation: "horizontal",
-        safesearch: "true",
+            page: page,
+            per_page: limit,
+            key: KEY,
+            q: QUERY,
+            image_type: "photo",
+            orientation: "horizontal",
+            safesearch: "true",
         }
     });
 

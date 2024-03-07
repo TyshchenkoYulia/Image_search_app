@@ -84,7 +84,7 @@ async function onButtonSubmitForm(event) {
 }
     
 
-refs.loadMoreButton.addEventListener('click', onButtonClickLoadmore);
+// refs.loadMoreButton.addEventListener('click', onButtonClickLoadmore);
 
 function onButtonClickLoadmore() {
     
