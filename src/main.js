@@ -6,7 +6,7 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 
 import errorIcon from "../src/img/error-icon.svg";
 
-import { getImages} from "./js/pixabay-api";
+import { getImages, limit, page} from "./js/pixabay-api";
 import { renderGalleryMarkup } from "./js/render-functions";
 
 import { refs } from "./js/refs";
@@ -49,7 +49,7 @@ async function onButtonSubmitForm(event) {
     refs.loader.classList.add('loader');
 
     try {
-        await getImages(inputValue);
+       const data = await getImages(inputValue);
 
         if (data.total === 0) {
                 iziToast.show({
@@ -72,15 +72,27 @@ async function onButtonSubmitForm(event) {
 
         
 
-    } catch(error) {
+    } catch (error) {
+        
         console.log(error);
     }
 
+    
+    
     refs.formSubmit.reset();
 
 }
     
 
-    
+refs.loadMoreButton.addEventListener('click', onButtonClickLoadmore);
 
+function onButtonClickLoadmore() {
+    
+    page++;
+
+    refs.loader.classList.add('loader');
+    refs.loadMoreButton.classList.add('load-more');
+    
+    onButtonSubmitForm();
+}
     
