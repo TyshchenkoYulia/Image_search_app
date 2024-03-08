@@ -21,8 +21,8 @@ const lightbox = new SimpleLightbox('.gallery a',
 
 // ====================================================================
 
-let page = 1;
-let inputValue;
+let page;
+let searchQuery;
 
 
 refs.loadMoreButton.classList.add('is-close');
@@ -35,10 +35,12 @@ async function onButtonSubmitForm(event) {
     refs.gallery.innerHTML = '';
     refs.loadMoreButton.classList.remove('load-more');
 
-    inputValue = refs.input.value.trim();
+    page = 1;
+
+    searchQuery = refs.input.value.trim();
     refs.loadMoreButton.classList.add('is-close');
 
-    if (inputValue === '') {
+    if (searchQuery === '') {
             iziToast.show({
                     
                     titleColor: '#fff',
@@ -57,7 +59,7 @@ async function onButtonSubmitForm(event) {
     refs.loader.classList.add('loader');
 
     try {
-       const data = await getImages(inputValue);
+       const data = await getImages(searchQuery, page);
                 
         if (data.total === 0) {
           
@@ -79,6 +81,8 @@ async function onButtonSubmitForm(event) {
         }
 
         renderGalleryMarkup(data.hits);
+
+        refs.loader.classList.remove('loader');  
 
         // const galleryElement = document.querySelector('.gallery-item');
         // let rect = galleryElement.getBoundingClientRect();
@@ -105,7 +109,7 @@ async function onButtonClickLoadmore() {
     refs.loader.classList.add('loader');
 
     try {
-        const data = await getImages(inputValue, page);
+        const data = await getImages(searchQuery, page);
         renderGalleryMarkup(data.hits);
 
         window.scrollBy({
