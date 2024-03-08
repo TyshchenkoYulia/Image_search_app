@@ -6,7 +6,7 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 
 import errorIcon from "../src/img/error-icon.svg";
 
-import { getImages, limit} from "./js/pixabay-api";
+import { getImages} from "./js/pixabay-api";
 import { renderGalleryMarkup } from "./js/render-functions";
 
 import { refs } from "./js/refs";
@@ -24,8 +24,6 @@ const lightbox = new SimpleLightbox('.gallery a',
 let page;
 let searchQuery;
 
-
-refs.loadMoreButton.classList.add('is-close');
 
 refs.formSubmit.addEventListener('submit', onButtonSubmitForm);            
     
@@ -119,15 +117,18 @@ async function onButtonClickLoadmore() {
        
         lightbox.refresh();
 
-        if (data.hits.length < limit) {
+        if (Math.ceil(data.totalHits / 15) === page) {
                 refs.loadMoreButton.classList.add('is-close');
-
+                refs.loader.classList.remove('loader');
+            
                 return iziToast.error({
                             icon: '',
                             color: 'blue',
                             position: 'topRight',
                             message: "We're sorry, but you've reached the end of search results.",
-                        });
+                });
+            
+            
         }
       
     } catch (error) {
