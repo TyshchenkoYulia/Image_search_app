@@ -58,7 +58,7 @@ async function onButtonSubmitForm(event) {
 
     try {
        const data = await getImages(searchQuery, page);
-                
+               
         if (data.total === 0) {
           
                 iziToast.show({
@@ -76,7 +76,7 @@ async function onButtonSubmitForm(event) {
             
             refs.loader.classList.remove('loader');
             return;          
-        }
+        }  
 
         renderGalleryMarkup(data.hits);
 
@@ -86,7 +86,8 @@ async function onButtonSubmitForm(event) {
         // let rect = galleryElement.getBoundingClientRect();
        
         lightbox.refresh();
-        
+
+       
     } catch (error) {
         console.log(error);
     }
