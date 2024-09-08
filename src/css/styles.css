@@ -1,8 +1,7 @@
-@import url('./reset.css');
-
 :root {
   background-color: rgba(196, 186, 186, 0.87);
 }
+@import url('./reset.css');
 
 section {
   text-align: center;
