@@ -13,11 +13,7 @@ export default defineConfig(({ command }) => {
       sourcemap: true,
 
       rollupOptions: {
-        input: glob.sync('./src/*.html').reduce((acc, file) => {
-          const name = file.split('/').pop().replace('.html', '');
-          acc[name] = file;
-          return acc;
-        }, {}),
+        input: glob.sync('./src/*.html'),
         output: {
           manualChunks(id) {
             if (id.includes('node_modules')) {
